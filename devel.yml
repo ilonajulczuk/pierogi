@@ -1,0 +1,62 @@
+- hosts: default
+
+  vars:
+   - db_name: pierogi
+   - db_user: pierogi
+   - db_password: pierogi
+
+  tasks:
+   # - name: update apt cache
+   #   sudo: True
+   #   apt: update_cache=yes
+
+   - name: add postgres apt repository key
+     sudo: True
+     apt_key: url=https://www.postgresql.org/media/keys/ACCC4CF8.asc
+
+   - name: add postgres apt repository
+     sudo: True
+     apt_repository: >
+      repo='deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main'
+      state=present
+
+   - name: install packages
+     sudo: True
+     apt: pkg={{ item }} state=latest
+     with_items:
+      - postgresql-9.4
+      - postgresql-contrib-9.4
+      - python-virtualenv
+      - python-psycopg2
+
+   - name: overwrite postgresql configuration
+     sudo: True
+     sudo_user: postgres
+     copy: src=ansible/{{ item }} dest=/etc/postgresql/9.4/main/{{ item }}
+     with_items:
+      - pg_hba.conf
+      - postgresql.conf
+
+   - name: ensure postgresql hstore extension is created
+     sudo: True
+     sudo_user: postgres
+     shell: "psql template1 -c 'CREATE EXTENSION hstore;'"
+     register: psql_result
+     failed_when: >
+       psql_result.rc != 0 and ("already exists" not in psql_result.stderr)
+     changed_when: "psql_result.rc == 0"
+
+   - name: start postgresql
+     sudo: True
+     service: name=postgresql state=restarted
+
+   - name: create database user
+     postgresql_user: name={{ db_user }} password={{ db_password }}
+      role_attr_flags=CREATEDB
+     sudo: True
+     sudo_user: postgres
+
+   - name: create database
+     postgresql_db: name={{ db_name }} owner={{ db_user }} template=template1
+     sudo: True
+     sudo_user: postgres

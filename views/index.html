@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PIEROGIII</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+<script src="js/data_table.js"></script>
+</head>
+<body>
+<div>
+<div>
+<nav class="navbar navbar-inverse" role="navigation" style="padding-left:130px;">
+       <ul class="nav navbar-nav">
+      <li class="active"><a href="/">PIEROGI<span class="sr-only">(current)</span></a></li>
+      <li><a href="/dodaj">Rzuć pierogiem</a></li>
+      <li><a href="/contact">Zbierz pieroga</a></li>
+    </ul>
+</nav>
+</div>
+<br/>
+<div class="jumbotron">
+<table id="pierogi_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Nazwa pieroga</th>
+                <th>Lokalizacja pieroga</th>
+                <th>Data oddania</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Name</th>
+                <th>Lokalizacja pieroga</th>
+                <th>Data oddania</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            <tr>
+                <td>Tiger Nixon</td>
+                <td>Edinburgh</td>
+                <td>2011/04/25</td>
+            </tr>
+            <tr>
+                <td>Garrett Winters</td>
+                <td>Tokyo</td>
+                <td>2011/07/25</td>
+            </tr>
+	</tbody>
+</table>
+</div>
+</div>
+</body>
+</html>
